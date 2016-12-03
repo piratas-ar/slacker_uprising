@@ -5,7 +5,7 @@ require 'pry'
 require 'json'
 require 'carrier-pigeon'
 
-post "/" do
+post "/:canal" do
 hash=JSON.parse(request.env["rack.request.form_vars"])
 #msj=hash["attachments"].first["text"].split("\n").first
 msj=hash["text"].gsub(/<[^|]+\|/,"").gsub(">","")
@@ -13,7 +13,7 @@ msj=hash["text"].gsub(/<[^|]+\|/,"").gsub(">","")
 thread=hash["text"].split('<').last.split('|').first
 Thread.new do
   CarrierPigeon.send(
-    uri: "irc://starhawk@irc.pirateirc.net:6697/#ppar",
+    uri: "irc://starhawk@irc.pirateirc.net:6697/:#{canal}",
     message: "#{msj} en #{thread}", 
     ssl: true,
     join: true,
