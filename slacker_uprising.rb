@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'sinatra'
-require 'pry'
+require 'pry' unless ENV["RACK_ENV"] == "production"
 require 'json'
 require 'carrier-pigeon'
 
