@@ -13,7 +13,7 @@ msj=hash["text"].gsub(/<[^|]+\|/,"").gsub(">","")
 thread=hash["text"].split('<').last.split('|').first
 Thread.new do
   CarrierPigeon.send(
-    uri: "irc://starhawk@irc.pirateirc.net:6697/:#{canal}",
+    uri: "irc://starhawk@irc.pirateirc.net:6697/:#{params['canal']}",
     message: "#{msj} en #{thread}", 
     ssl: true,
     join: true,
