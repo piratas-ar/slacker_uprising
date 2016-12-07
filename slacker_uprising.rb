@@ -6,19 +6,17 @@ require 'json'
 require 'carrier-pigeon'
 
 post "/:canal" do
-hash=JSON.parse(request.env["rack.request.form_vars"])
-#msj=hash["attachments"].first["text"].split("\n").first
-msj=hash["text"].gsub(/<[^|]+\|/,"").gsub(">","")
-#user=hash["text"].split('u/').last.split('|').first
-thread=hash["text"].split('<').last.split('|').first
-Thread.new do
-  CarrierPigeon.send(
-    uri: "irc://starhawk@irc.pirateirc.net:6697/##{params['canal']}",
-    message: "#{msj} en #{thread}", 
-    ssl: true,
-    join: true,
-  )
-end
-#binding.pry
-end
+  hash   = JSON.parse(request.env["rack.request.form_vars"])
+  msj    = hash["text"].gsub(/<[^|]+\|/,"").gsub(">","")
+  thread = hash["text"].split('<').last.split('|').first
+  canal  = params['canal']
 
+  Thread.new do
+    CarrierPigeon.send(
+      uri: "irc://starhawk@irc.pirateirc.net:6697/##{canal}",
+      message: "#{msj} en #{thread}",
+      ssl: true,
+      join: true,
+    )
+  end
+end
