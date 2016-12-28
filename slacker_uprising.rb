@@ -16,7 +16,7 @@ post "/:canal" do
       uri: "irc://starhawk@irc.pirateirc.net:6697/##{canal}",
       message: "#{msj} en #{thread}",
       ssl: true,
-      join: true,
+      join: false,
     )
   end
 end
