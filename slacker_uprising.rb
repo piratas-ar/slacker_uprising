@@ -10,13 +10,15 @@ post "/:canal" do
   msj    = hash["text"].gsub(/<[^|]+\|/,"").gsub(">","")
   thread = hash["text"].split('<').last.split('|').first
   canal  = params['canal']
+  pass   = params.dig('password')
 
   Thread.new do
     CarrierPigeon.send(
       uri: "irc://starhawk@irc.pirateirc.net:6697/##{canal}",
       message: "#{msj} en #{thread}",
       ssl: true,
-      join: false,
+      join: !pass.nil?,
+      channel_password: pass
     )
   end
 end
